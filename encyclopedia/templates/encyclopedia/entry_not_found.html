@@ -6,10 +6,10 @@ Entry not found
 
 {% block body %}
 
+<h1>You searched for: <b>"{{ entry_name }}"</b>.</h1>
 <p>
-    You searched for: <b>"{{ entry_name }}"</b>.
-    The requested page do not exists.
-    You can <a href="">Create it</a>, or go to the <a href="{% url 'index' %}">Home page</a>.
+    <h3>The requested page do not exists.</h3>
+    <h5>You can <a href="">Create it</a>, or go to the <a href="{% url 'index' %}">Home page</a>.</h5>
 </p>
 
 {% endblock %}
