@@ -3,7 +3,7 @@ import re
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-
+from django.http import HttpResponse
 
 def list_entries():
     """
@@ -40,18 +40,8 @@ def get_entry(title):
 
 def markdown_to_html(title):
     """
-    Returns a list of HTML lines from a Markdown entry. 
+    Returns a Markdown entry in HTML format. 
     If no such entry exists, the function returns None.
     """
-    try:
-        f = default_storage.open(f"entries/{title}.md")
-    except FileNotFoundError:
-        return None
-    
-    html_output = []
-    for line in f:
-        html_line = markdown2.markdown(line)
-        html_output.append(html_line)
-    
-    f.close()
-    return html_output
+    entry_body = markdown2.markdown(get_entry(title))
+    return entry_body

@@ -10,7 +10,8 @@ def index(request):
 
 
 def entry(request, entry):
-    
+    entry_body = util.markdown_to_html(entry)
     return render(request, "encyclopedia/entry.html", {
-        "entry": util.markdown_to_html(entry) 
+        "entry_title": entry,
+        "entry_body": entry_body,
     })
