@@ -1,0 +1,15 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+Entry not found
+{% endblock %}
+
+{% block body %}
+
+<p>
+    You searched for: <b>"{{ entry_name }}"</b>.
+    The requested page do not exists.
+    You can <a href="">Create it</a>, or go to the <a href="{% url 'index' %}">Home page</a>.
+</p>
+
+{% endblock %}
