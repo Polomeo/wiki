@@ -1,12 +1,14 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-ENTRY_NAME
+{{ entry.0 }}
 {% endblock %}
 
 {% block body %}
-<h1>ENTRY_NAME</h1>
 
-{{ entry }}
+{% for entry_line in entry %}
+{{ entry_line|safe }}
+{% endfor %}
+
 
 {% endblock %}
