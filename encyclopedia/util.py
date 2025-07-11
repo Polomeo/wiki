@@ -38,10 +38,12 @@ def get_entry(title):
         return None
 
 
-def markdown_to_html(title):
+def markdown_to_html(entry):
     """
     Returns a Markdown entry in HTML format. 
     If no such entry exists, the function returns None.
     """
-    entry_body = markdown2.markdown(get_entry(title))
+    if entry is None:
+        return None
+    entry_body = markdown2.markdown(entry)
     return entry_body
