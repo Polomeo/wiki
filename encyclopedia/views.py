@@ -7,9 +7,20 @@ from . import util
 
 
 def index(request):
-    return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
-    })
+    entries = util.list_entries()
+    search_word = request.GET.get("q") or ''
+    if search_word =='':
+        return render(request, "encyclopedia/index.html", {
+            "entries": entries
+        })
+    else:
+        for entry in entries:
+            if entry == search_word:
+                return HttpResponseRedirect(reverse('entry', kwargs={"entry": entry}))
+            # elif entry in search_word:
+
+
+
 
 
 def entry(request, entry):
