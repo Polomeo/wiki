@@ -25,8 +25,7 @@ def searchbar(request):
                 return HttpResponseRedirect(reverse('entry', kwargs={"entry": entry}))
             elif search_word.lower() in entry.lower():
                 partial_matches.append(entry)
-        print(partial_matches)
-        return render(request, "encyclopedia/index.html", {
+        return render(request, "encyclopedia/search_results.html", {
             "entries": partial_matches
             })
 
