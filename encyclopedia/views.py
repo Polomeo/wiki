@@ -8,19 +8,27 @@ from . import util
 
 def index(request):
     entries = util.list_entries()
+    return render(request, "encyclopedia/index.html", {
+        "entries": entries
+    })
+    
+
+def searchbar(request):
     search_word = request.GET.get("q") or ''
-    if search_word =='':
-        return render(request, "encyclopedia/index.html", {
-            "entries": entries
-        })
+    entries = util.list_entries()
+    if search_word == '':
+        return HttpResponseRedirect(reverse('index'))
     else:
+        partial_matches = []
         for entry in entries:
-            if entry == search_word:
+            if entry.lower() == search_word.lower():
                 return HttpResponseRedirect(reverse('entry', kwargs={"entry": entry}))
-            # elif entry in search_word:
-
-
-
+            elif search_word.lower() in entry.lower():
+                partial_matches.append(entry)
+        print(partial_matches)
+        return render(request, "encyclopedia/index.html", {
+            "entries": partial_matches
+            })
 
 
 def entry(request, entry):
