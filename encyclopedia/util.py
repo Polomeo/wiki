@@ -1,8 +1,9 @@
+import markdown2
 import re
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-
+from django.http import HttpResponse
 
 def list_entries():
     """
@@ -35,3 +36,14 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+
+
+def markdown_to_html(entry):
+    """
+    Returns a Markdown entry in HTML format. 
+    If no such entry exists, the function returns None.
+    """
+    if entry is None:
+        return None
+    entry_body = markdown2.markdown(entry)
+    return entry_body
