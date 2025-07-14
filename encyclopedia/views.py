@@ -10,8 +10,8 @@ from django.urls import reverse
 from . import util
 
 def validate_entry_title(title):
-    all_entries = util.list_entries()
-    if title in all_entries:
+    all_entries = [e.lower() for e in util.list_entries()]
+    if title.lower() in all_entries:
         raise ValidationError('Already exists an entry with this title. Please choose a diferent one.')
 
 class NewEntryForm(forms.Form):
