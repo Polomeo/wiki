@@ -79,4 +79,6 @@ def new_entry(request):
         "form": NewEntryForm()
     })
 
+def edit_entry(request):
+    pass
         
