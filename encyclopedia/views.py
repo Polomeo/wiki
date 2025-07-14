@@ -1,5 +1,7 @@
 import markdown2
 
+from django import forms
+from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -7,6 +9,17 @@ from django.urls import reverse
 
 from . import util
 
+def validate_entry_title(title):
+    all_entries = util.list_entries()
+    if title in all_entries:
+        raise ValidationError('Already exists an entry with this title. Please choose a diferent one.')
+
+class NewEntryForm(forms.Form):
+    title = forms.CharField(label="Title",
+                            required = True,
+                            max_length = 50,
+                            validators=[validate_entry_title])
+    content = forms.CharField(widget=forms.Textarea())
 
 def index(request):
     entries = util.list_entries()
@@ -48,12 +61,22 @@ def entry_not_found(request, entry):
         "entry_name": entry
     })
 
+
 def new_entry(request):
-    if request.method == "GET":
-        return render(request, "encyclopedia/new_entry.html")
-    elif request.method == "POST":
-        title = request.POST['title']
-        body = request.POST['content']
-        
+    if request.method == "POST":
+        form = NewEntryForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            util.save_entry(title, content)
+            return HttpResponseRedirect(reverse('entry', kwargs={"entry": title}))
+        else:
+            return render(request, "encyclopedia/new_entry.html", {
+                    "form": form
+                })
+
+    return render(request, "encyclopedia/new_entry.html", {
+        "form": NewEntryForm()
+    })
 
         

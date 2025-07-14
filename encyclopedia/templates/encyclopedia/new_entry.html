@@ -8,16 +8,9 @@ New Entry
 <h1>New Entry</h1>
 <div>
     <form action="{% url 'new' %}" method="POST">
-    {% csrf_token %}
-        <p>
-            <input type="text" name="title" placeholder="Title">
-        </p>
-        <p>
-            <input type="textarea" name="content" style="height: 200px;" placeholder="Body of the article...">
-        </p>
-        <p>
-            <input type="submit" value="Save entry">
-        </p>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save entry">
     </form>
 </div>
 
