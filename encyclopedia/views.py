@@ -1,3 +1,5 @@
+import markdown2
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -45,3 +47,13 @@ def entry_not_found(request, entry):
     return render(request, "encyclopedia/entry_not_found.html", {
         "entry_name": entry
     })
+
+def new_entry(request):
+    if request.method == "GET":
+        return render(request, "encyclopedia/new_entry.html")
+    elif request.method == "POST":
+        title = request.POST['title']
+        body = request.POST['content']
+        
+
+        
