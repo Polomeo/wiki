@@ -23,6 +23,7 @@ class NewEntryForm(forms.Form):
 
 class EditEntryForm(forms.Form):
     title = forms.CharField(label="Title",
+                            required=True,
                             disabled=True)
     content = forms.CharField(widget=forms.Textarea())
 
@@ -88,18 +89,22 @@ def edit_entry(request, title):
     if request.method == "POST":
         form = EditEntryForm(request.POST)
         if form.is_valid():
-            title = form.cleaned_data['title']
-            content = form.cleaned_data['content']
-            util.save_entry(title, content)
+            title_clean = form.cleaned_data['title']
+            content_clean = form.cleaned_data['content']
+            util.save_entry(title_clean, content_clean)
             return HttpResponseRedirect(reverse('entry', kwargs={"entry": title}))
         else:
             return render(request, "encyclopedia/edit_entry.html", {
                     "form": form,
                     "title": title,
                 })
-
+    # GET METHOD
+    content = util.get_entry(title)
+    data = {"title": title, 
+            "content": content,
+            }
     return render(request, "encyclopedia/edit_entry.html", {
-        "form": EditEntryForm(),
+        "form": EditEntryForm(initial=data),
         "title": title,
     })
         

@@ -7,10 +7,11 @@ Edit {{ title }}
 {% block body %}
 <h1>Edit entry: "{{ title }}"</h1>
 <div>
-    <form action="{% url 'edit' %}" method="POST">
+    <form action="{% url 'edit' title %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save changes">
+        <a href="{% url 'entry' title %}">Cancel</a>
     </form>
 </div>
 
