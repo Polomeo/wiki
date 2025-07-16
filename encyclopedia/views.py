@@ -21,6 +21,11 @@ class NewEntryForm(forms.Form):
                             validators=[validate_entry_title])
     content = forms.CharField(widget=forms.Textarea())
 
+class EditEntryForm(forms.Form):
+    title = forms.CharField(label="Title",
+                            disabled=True)
+    content = forms.CharField(widget=forms.Textarea())
+
 def index(request):
     entries = util.list_entries()
     return render(request, "encyclopedia/index.html", {
@@ -79,6 +84,22 @@ def new_entry(request):
         "form": NewEntryForm()
     })
 
-def edit_entry(request):
-    pass
+def edit_entry(request, title):
+    if request.method == "POST":
+        form = EditEntryForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            util.save_entry(title, content)
+            return HttpResponseRedirect(reverse('entry', kwargs={"entry": title}))
+        else:
+            return render(request, "encyclopedia/edit_entry.html", {
+                    "form": form,
+                    "title": title,
+                })
+
+    return render(request, "encyclopedia/edit_entry.html", {
+        "form": EditEntryForm(),
+        "title": title,
+    })
         
