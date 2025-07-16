@@ -98,6 +98,7 @@ def edit_entry(request, title):
             if title_clean == title:
                 util.save_entry(title_clean, content_clean)
                 return HttpResponseRedirect(reverse('entry', kwargs={"entry": title}))
+            # If the user modified the title of the entry
             else:
                 util.delete_entry(title)
                 util.save_entry(title_clean, content_clean)
@@ -111,7 +112,7 @@ def edit_entry(request, title):
                     "form": EditEntryForm(initial=data),
                     "title": title,
                 })
-    # GET METHOD
+    # GET Method
     content = util.get_entry(title)
     data = {"title": title,
             "content": content,
