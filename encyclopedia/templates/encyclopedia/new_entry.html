@@ -11,6 +11,7 @@ New Entry
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save entry">
+        <a href="{% url 'index' %}">Cancel</a>
     </form>
 </div>
 
