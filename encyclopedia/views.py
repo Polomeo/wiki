@@ -15,7 +15,7 @@ def validate_entry_title(title):
         raise ValidationError('Already exists an entry with this title. Please choose a diferent one.')
 
 class NewEntryForm(forms.Form):
-    title = forms.CharField(label="Title: ",
+    title = forms.CharField(label="Title",
                             required = True,
                             max_length = 50,
                             validators=[validate_entry_title]
@@ -23,10 +23,10 @@ class NewEntryForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea())
 
 class EditEntryForm(forms.Form):
-    title = forms.CharField(label="Title: ",
+    title = forms.CharField(label="Title",
                             # disabled=True,
                             )
-    content = forms.CharField(label="Content: ",
+    content = forms.CharField(label="Content",
                             widget=forms.Textarea(),
                             )
 
