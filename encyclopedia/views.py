@@ -1,4 +1,5 @@
 import markdown2
+import random
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -121,4 +122,8 @@ def edit_entry(request, title):
         "form": EditEntryForm(initial=data),
         "title": title,
     })
-        
+
+
+def random_entry(request):
+    random_pick = random.choice(util.list_entries())
+    return entry(request, random_pick)
