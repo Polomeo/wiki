@@ -24,9 +24,11 @@ class NewEntryForm(forms.Form):
 
 class EditEntryForm(forms.Form):
     title = forms.CharField(label="Title: ",
-                            #disabled=True,
+                            # disabled=True,
                             )
-    content = forms.CharField(widget=forms.Textarea())
+    content = forms.CharField(label="Content: ",
+                            widget=forms.Textarea(),
+                            )
 
 def index(request):
     entries = util.list_entries()
@@ -90,16 +92,20 @@ def new_entry(request):
 def edit_entry(request, title):
     if request.method == "POST":
         form = EditEntryForm(request.POST)
-        print(request.POST['title'])
         if form.is_valid():
             title_clean = form.cleaned_data['title']
             content_clean = form.cleaned_data['content']
-            util.save_entry(title_clean, content_clean)
-            return HttpResponseRedirect(reverse('entry', kwargs={"entry": title}))
+            if title_clean == title:
+                util.save_entry(title_clean, content_clean)
+                return HttpResponseRedirect(reverse('entry', kwargs={"entry": title}))
+            else:
+                util.delete_entry(title)
+                util.save_entry(title_clean, content_clean)
+                return HttpResponseRedirect(reverse('entry', kwargs={"entry": title_clean}))
+
         else:
-            content = form.content
-            data = {"title": title, 
-                    "content": content,
+            data = {"title": form.cleaned_data['title'], 
+                    "content": form.cleaned_data['content'],
                     }
             return render(request, "encyclopedia/edit_entry.html", {
                     "form": EditEntryForm(initial=data),
@@ -107,7 +113,7 @@ def edit_entry(request, title):
                 })
     # GET METHOD
     content = util.get_entry(title)
-    data = {"title": title, 
+    data = {"title": title,
             "content": content,
             }
     return render(request, "encyclopedia/edit_entry.html", {

@@ -20,9 +20,9 @@ def save_entry(title, content):
     content. If an existing entry with the same title already exists,
     it is replaced.
     """
+
     filename = f"entries/{title}.md"
-    if default_storage.exists(filename):
-        default_storage.delete(filename)
+    delete_entry(title)
     default_storage.save(filename, ContentFile(content))
 
 
@@ -37,6 +37,10 @@ def get_entry(title):
     except FileNotFoundError:
         return None
 
+def delete_entry(title):
+    filename = f"entries/{title}.md"
+    if default_storage.exists(filename):
+        default_storage.delete(filename)
 
 def markdown_to_html(entry):
     """
