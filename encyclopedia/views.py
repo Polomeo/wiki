@@ -126,4 +126,4 @@ def edit_entry(request, title):
 
 def random_entry(request):
     random_pick = random.choice(util.list_entries())
-    return entry(request, random_pick)
+    return HttpResponseRedirect(reverse('entry', kwargs={"entry": random_pick}))
