@@ -11,7 +11,7 @@ Search results
     {% for entry in entries %}
     <li><a href="{% url 'entry' entry %}">{{ entry }}</a></li>
     {% empty %}
-    <li>There are no entries that matches your search. You can go for a <a href="">Random entry!</a></li>
+    <li>There are no entries that matches your search. You can go for a <a href="{% url 'random' %}">Random entry!</a></li>
     {% endfor %}
 </ul>
 
