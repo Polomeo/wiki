@@ -4,7 +4,7 @@ import random
 from django import forms
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 
@@ -63,12 +63,6 @@ def entry(request, entry):
         })
 
 
-def entry_not_found(request, entry):
-    return render(request, "encyclopedia/entry_not_found.html", {
-        "entry_name": entry
-    })
-
-
 def new_entry(request):
     if request.method == "POST":
         form = NewEntryForm(request.POST)
@@ -85,6 +79,10 @@ def new_entry(request):
     return render(request, "encyclopedia/new_entry.html", {
         "form": NewEntryForm()
     })
+
+
+def entry_exists(request, title):
+    return render(request, "encyclopedia/new_entry.html")
 
 
 def edit_entry(request, title):
