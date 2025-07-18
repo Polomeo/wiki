@@ -5,7 +5,7 @@ New Entry
 {% endblock %}
 
 {% block body %}
-<h1>New Entry</h1>
+<h3>New Entry</h3>
 <div>
     <form action="{% url 'new' %}" method="POST">
         {% csrf_token %}

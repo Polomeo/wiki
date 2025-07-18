@@ -5,7 +5,7 @@ Edit {{ title }}
 {% endblock %}
 
 {% block body %}
-<h1>Edit entry: "{{ title }}"</h1>
+<h3>Edit entry: "{{ title }}"</h3>
 <div>
     <form action="{% url 'edit' title %}" method="POST">
         {% csrf_token %}
